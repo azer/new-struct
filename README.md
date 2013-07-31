@@ -1,6 +1,6 @@
 ## new-struct
 
-Structs inspred from Golang
+Structs inspired from Golang
 
 ```js
 newStruct = require('new-struct')
