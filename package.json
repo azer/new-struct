@@ -1,0 +1,22 @@
+{
+  "name": "new-struct",
+  "version": "0.0.0",
+  "description": "Golang like structs",
+  "main": "index.js",
+  "scripts": {
+    "test": "fox"
+  },
+  "devDependencies": {
+    "fox": "*"
+  },
+  "keywords": [
+    "struct",
+    "golang"
+  ],
+  "repository": {
+    "url": "git@github.com:azer\/new-struct.git",
+    "type": "git"
+  },
+  "author": "Azer Ko\u00e7ulu <azer@kodfabrik.com>",
+  "license": "BSD"
+}
