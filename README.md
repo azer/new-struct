@@ -63,4 +63,24 @@ function grrr(cat) {
 dongdong = Cat('dongdong', 2) // notice how 'type' property got eleminated from parameter order.
 ```
 
+To define a constructor method:
+
+```js
+Animal = newStruct({
+  construct: construct,
+  name: '',
+  type: '',
+  age: 0,
+  run: run
+})
+
+function construct (animal) {
+  animal.log = console.log
+  animal.log('%s just born!', animal.name)
+}
+
+dondong = Animal('dongdong', 'cat')
+// => dongdong just born
+```
+
 ![](http://i.cloudup.com/CZR70W5Sct.png)

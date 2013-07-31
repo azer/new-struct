@@ -168,3 +168,30 @@ it('creates a new struct from anotehr', function(){
   expect(dongdong.legs).to.equal(4);
   expect(dongdong.age).to.equal(2);
 });
+
+it('calls constructor method after initialization', function(){
+
+  var Animal = newStruct({
+    construct: construct,
+    name: '',
+    type: '',
+    legs: 0,
+    age: 0
+  });
+
+
+  function construct (animal){
+    expect(animal.name).to.equal('dongdong');
+    expect(animal.type).to.equal('cat');
+    expect(animal.legs).to.equal(4);
+    expect(animal.age).to.equal(2);
+
+    animal.ok = true;
+  }
+
+
+  var animal = Animal('dongdong', 'cat', 4, 2);
+
+  expect(animal.ok).to.be.true;
+
+});

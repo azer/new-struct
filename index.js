@@ -34,6 +34,10 @@ function newStruct(content){
       copy[methods[i]] = wrapMethod(copy, struct[methods[i]]);
     }
 
+    if (struct.construct) {
+      struct.construct(copy);
+    }
+
     return copy;
   };
 
