@@ -210,11 +210,11 @@ it('lets calling super methods', function(){
 
   var B = A.extend({
     construct: function (b) {
-      B.supers.construct();
+      B.supers.construct(b);
       b.foo += 100;
     },
     bar: function (b, n) {
-      var ret = B.supers.bar(n);
+      var ret = B.supers.bar(b, n);
       b.qux += 100;
       return ret += 100;
     }

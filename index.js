@@ -34,12 +34,6 @@ function newStruct (content){
       copy[methods[i]] = wrapMethod(copy, struct[methods[i]]);
     }
 
-    if (create.supers) {
-      for (key in create.supers) {
-        create.supers[key] = wrapMethod(copy, create.supers[key]);
-      }
-    }
-
     if (struct.construct) {
       struct.construct(copy);
     }
