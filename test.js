@@ -195,3 +195,36 @@ it('calls constructor method after initialization', function(){
   expect(animal.ok).to.be.true;
 
 });
+
+it('lets calling super methods', function(){
+
+  var A = newStruct({
+    construct: function (a) {
+      a.foo = 100;
+    },
+    bar: function (a, n) {
+      a.qux = n;
+      return 300;
+    }
+  });
+
+  var B = A.extend({
+    construct: function (b) {
+      B.supers.construct();
+      b.foo += 100;
+    },
+    bar: function (b, n) {
+      var ret = B.supers.bar(n);
+      b.qux += 100;
+      return ret += 100;
+    }
+  });
+
+  var a = A();
+  var b = B();
+
+  expect(b.foo).to.equal(200);
+  expect(b.bar(200)).to.equal(400);
+  expect(b.qux).to.equal(300);
+
+});

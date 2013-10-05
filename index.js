@@ -1,6 +1,6 @@
 module.exports = newStruct;
 
-function newStruct(content){
+function newStruct (content){
   var struct  = Object.create(content),
       props = create.props = [],
       methods = create.methods = [];
@@ -34,6 +34,12 @@ function newStruct(content){
       copy[methods[i]] = wrapMethod(copy, struct[methods[i]]);
     }
 
+    if (create.supers) {
+      for (key in create.supers) {
+        create.supers[key] = wrapMethod(copy, create.supers[key]);
+      }
+    }
+
     if (struct.construct) {
       struct.construct(copy);
     }
@@ -43,14 +49,20 @@ function newStruct(content){
 
   create.extend = function(ext){
     var config = Object.create(content),
+        supers = {},
         create;
 
     var key;
     for (key in ext) {
+      if (typeof config[key] == 'function') {
+        supers[key] = config[key];
+      }
+
       config[key] = ext[key];
     }
 
     create = newStruct(config);
+    create.supers = supers;
 
     var ind;
     for (key in ext) {
@@ -60,7 +72,7 @@ function newStruct(content){
     return create;
   };
 
-  create.method = function(name, fn){
+  create.method = function (name, fn){
     methods.push(name);
     struct[name] = fn;
     return create;
@@ -69,7 +81,7 @@ function newStruct(content){
   return create;
 }
 
-function wrapMethod(copy, method){
+function wrapMethod (copy, method){
   return function(){
     var args = Array.prototype.slice.call(arguments);
     args.splice(0, 0, copy);
