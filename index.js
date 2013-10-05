@@ -66,7 +66,9 @@ function newStruct (content){
 
     var ind;
     for (key in ext) {
-      create.props.splice(create.props.indexOf(key), 1);
+      if (typeof ext[key] != 'function') {
+        create.props.splice(create.props.indexOf(key), 1);
+      }
     }
 
     return create;
