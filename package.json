@@ -1,6 +1,6 @@
 {
   "name": "new-struct",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Structs inspired from Golang",
   "main": "index.js",
   "scripts": {
