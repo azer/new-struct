@@ -228,3 +228,28 @@ it('lets calling super methods', function(){
   expect(b.qux).to.equal(300);
 
 });
+
+it('allows static methods', function(){
+
+  var A = newStruct({
+    construct: function (a) {
+      a.foo = 100;
+    },
+    bar: function (a, n) {
+      a.qux = n;
+      return 300;
+    }
+  });
+
+  A.bar = function (a, b) {
+    return a + b;
+  };
+
+  var a = A(100);
+  expect(A.bar(10, 20)).to.equal(30);
+  expect(a.bar(70)).to.equal(300);
+  expect(a.qux).to.equal(70);
+  expect(a.foo).to.equal(100);
+
+
+});
