@@ -27,7 +27,7 @@ function speak (animal, text) {
 }
 ```
 
-Check out [Usage](#usage) for more info about it.
+Check out [Usage](#usage) and examples for more info about it.
 
 ## Install
 
