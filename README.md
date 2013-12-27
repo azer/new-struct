@@ -1,30 +1,33 @@
 ## new-struct
 
-Structs inspired from Golang
+A minimalistic class system designed for flexibility, functional programming. Inspired from Golang's Struct concept.
+
+Motivation:
+
+* `new-struct` is small and simple. All it does is composing functions and objects.
+* It doesn't have `new` and `this` keywords. So, you'll never have to fix scopes.
+* You can do currying, partial programming with both `new-struct` and structs.
+
+How does a struct look?
 
 ```js
-newStruct = require('new-struct')
+var Struct = require('new-struct')
 
-Animal = newStruct({
-  name: '',
-  type: '',
-  age: 0,
-  run: run
+var Animal = Struct({
+  sleep: sleep,
+  speak: speak
 })
 
-function run (animal) {
-  console.log('%s is running', animal.name)
+module.exports = Animal;
+
+function sleep (animal) { console.log('zzzz'); }
+
+function speak (animal, text) { 
+  console.log('%s says %s', animal.name, text);
 }
-
-dongdong = Animal('dongdong', 'cat', 4)
-blackbear = Animal('blackbear', 'cat', 3)
-
-dongdong.run()
-// => dongdong is running
-
-blackbear.run()
-// => blackbear is running
 ```
+
+Check out [Usage](#usage) for more info about it.
 
 ## Install
 
@@ -34,53 +37,115 @@ $ npm install new-struct
 
 ## Usage
 
-You can pass the values as an object, too;
+A new struct is defined by an object of methods:
 
 ```js
-dongdong = Animal({ type: 'cat', foobar: 'dfjh' })
-```
+Struct = require('new-struct')
 
-Methods can also be defined later;
-
-```js
-Animal.method('jump', function(animal){
-  console.log('%s is jumping!!', animal.name)
-})
-```
-
-To extend an existing struct:
-
-```js
-Cat = Animal.extend({
-  type: 'cat',
-  grrr: grrr
+Animal = Struct({
+  sleep: sleep,
+  run: run,
+  speak: speak
 })
 
-function grrr(cat) {
-  console.log('grrrrrr')
+function sleep (animal) {
+  console.log('zzz');
 }
 
-dongdong = Cat('dongdong', 2) // notice how 'type' property got eleminated from parameter order.
-```
-
-To define a constructor method:
-
-```js
-Animal = newStruct({
-  construct: construct,
-  name: '',
-  type: '',
-  age: 0,
-  run: run
-})
-
-function construct (animal) {
-  animal.log = console.log
-  animal.log('%s just born!', animal.name)
+function speak (animal, sound) {
+  console.log('%s says %s', animal.name, sound)
 }
 
-dondong = Animal('dongdong', 'cat')
-// => dongdong just born
+function run (animal) {
+  console.log('%s is running', animal.name)
+}
 ```
+
+To create a an instance of the `Animal` struct, just call it with an object.
+`this` and `new` keywords are not needed, everything is just functions.
+
+```
+dongdong = Animal({ name: 'dongdong' })
+blackbear = Animal({ name: 'blackbear' })
+
+dongdong.name
+// => 'dong dong'
+
+dongdong.run()
+// dongdong is running
+
+blackbear.sleep()
+// blackbear is sleeping
+```
+
+### Factory Functions
+
+It doesn't support constructors, but constructor-like factory functions are easy to implement:
+
+```js
+function NewAnimal (name, age) {
+  return Animal({ name: name, age: age })
+}
+```
+
+Note that you can attach your constructor as a static method. So, you could have such a module:
+
+```js
+Animal = Struct({
+  New: New,
+  run: run,
+  speak: speak
+})
+
+module.exports = Animal;
+
+function New (name, age) {
+  return Animal({ name: name, age: age })
+}
+
+function speak (animal, sound) {
+  console.log('%s says %s', animal.name, sound)
+}
+
+function run (animal) {
+  console.log('%s is running', animal.name)
+}
+```
+
+This will allow other modules requiring this have more flexibility:
+
+```js
+Animal = require('./animal')
+
+// You can either create using constructor:
+Animal.New('dong dong', 13)
+
+// Or calling the constructor itself:
+Animal({ name: 'dong dong', age: 13 })
+
+// You can also access the methods of Animal:
+Animal.methods.run({ name: 'black bear' })
+// will output: black bear is running
+```
+
+### Mixing
+
+You can create structs that mixes other ones:
+
+```js
+Animal = require('./animal')
+
+Cat = Struct(Animal, {
+  meow: meow
+})
+
+function meow (cat) {
+  Animal.methods.speak(cat, 'meooww')
+}
+```
+
+Notice that each struct has a property called `methods` that keeps all the functions passed to it, including the ones derived from other structs.
+
+See the tests and examples for more info, or create issues & send pull requests to improve the documentation.
 
 ![](http://i.cloudup.com/CZR70W5Sct.png)

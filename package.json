@@ -1,13 +1,17 @@
 {
   "name": "new-struct",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Structs inspired from Golang",
   "main": "index.js",
   "scripts": {
-    "test": "fox"
+    "test": "prova"
+  },
+  "dependencies": {
+    "mix-objects": "0.0.2",
+    "methodify": "0.0.2"
   },
   "devDependencies": {
-    "fox": "*"
+    "prova": "*"
   },
   "keywords": [
     "struct",

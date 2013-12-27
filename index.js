@@ -1,86 +1,44 @@
-module.exports = newStruct;
+var methodify = require("methodify");
+var mix = require("mix-objects");
 
-function newStruct (content){
-  var struct  = Object.create(content),
-      props = create.props = [],
-      methods = create.methods = [];
+module.exports = define;
 
-  var key;
-  for (key in struct) {
-    if (typeof struct[key] == 'function') {
-      methods.push(key);
-    } else {
-      props.push(key);
-    }
+function define () {
+  var functions = arguments[arguments.length - 1];
+
+  var i = arguments.length - 1;
+  while (i--) {
+    mix.one(functions, arguments[i].methods); 
   }
 
-  function create (values){
-    var copy = Object.create(struct),
-        key, i;
+  i = undefined;
+  constructor.methods = functions;
+  constructor.from = constructFrom;
+  constructor.isAStruct = true;
 
-    if (arguments.length == 1 && typeof values == 'object') {
-      for (key in values) {
-        copy[key] = values[key];
-      }
-    } else {
-      i = arguments.length;
-      while (i--) {
-        copy[ props[i] ]= arguments[i];
-      }
-    }
+  extractStaticMethods(functions, constructor);
 
-    i = methods.length;
-    while (i --) {
-      copy[methods[i]] = wrapMethod(copy, struct[methods[i]]);
-    }
+  return constructor;
 
-    if (struct.construct) {
-      struct.construct(copy);
-    }
+  function constructor (object) {
+    return methodify(object, functions);
+  }
 
-    return copy;
-  };
+  function constructFrom () {
+    var mixwith = Array.prototype.slice.call(arguments, 0, -1);
+    var object = arguments[arguments.length - 1];
 
-  create.extend = function(ext){
-    var config = Object.create(content),
-        supers = {},
-        create;
+    mix(object, mixwith);
 
-    var key;
-    for (key in ext) {
-      if (typeof config[key] == 'function') {
-        supers[key] = config[key];
-      }
-
-      config[key] = ext[key];
-    }
-
-    create = newStruct(config);
-    create.supers = supers;
-
-    var ind;
-    for (key in ext) {
-      if (typeof ext[key] != 'function') {
-        create.props.splice(create.props.indexOf(key), 1);
-      }
-    }
-
-    return create;
-  };
-
-  create.method = function (name, fn){
-    methods.push(name);
-    struct[name] = fn;
-    return create;
-  };
-
-  return create;
+    return methodify(object, functions);
+  }
 }
 
-function wrapMethod (copy, method){
-  return function(){
-    var args = Array.prototype.slice.call(arguments);
-    args.splice(0, 0, copy);
-    return method.apply(undefined, args);
-  };
+function extractStaticMethods (from, to) {
+  var key;
+  for (key in from) {
+    if (typeof from[key] != 'function' || key[0] != key[0].toUpperCase()) continue;
+    to[key] = from[key];
+    delete from[key];
+  }
 }
