@@ -1,6 +1,6 @@
 ## new-struct
 
-A minimalistic class system designed for flexibility, functional programming. Inspired from Golang's Struct concept.
+A minimalistic class system designed for flexibility, functional programming. Inspired from Golang's Struct concept. ([Blog Post](https://medium.com/p/8e5459ce9467))
 
 Motivation:
 
