@@ -8,12 +8,13 @@ function define () {
 
   var i = arguments.length - 1;
   while (i--) {
-    mix.one(functions, arguments[i].methods); 
+    mix.one(functions, arguments[i].methods);
   }
 
   i = undefined;
+
+  constructor.With = constructWith;
   constructor.methods = functions;
-  constructor.from = constructFrom;
   constructor.isAStruct = true;
 
   extractStaticMethods(functions, constructor);
@@ -24,7 +25,7 @@ function define () {
     return methodify(object, functions);
   }
 
-  function constructFrom () {
+  function constructWith () {
     var mixwith = Array.prototype.slice.call(arguments, 0, -1);
     var object = arguments[arguments.length - 1];
 

@@ -35,7 +35,6 @@ it("doesn't support constructors. constructor-like factory functions are easy.",
   function bOut (text) {
     expect(text).to.equal('dong dong: dong dong is a 20 year(s) old cat');
     expect(calledA).to.be.true;
-    console.log('doneee');
     done();
   }
 
@@ -74,4 +73,3 @@ it('supports embedding', function(done){
   }
 
 });
-
