@@ -2,29 +2,46 @@
 
 A minimalistic class system designed for flexibility, functional programming. Inspired from Golang's Struct concept. ([Blog Post](https://medium.com/p/8e5459ce9467))
 
-Motivation:
+### Motivation
 
-* `new-struct` is small and simple. All it does is composing functions and objects.
+* All it does is composing functions and objects.
 * It doesn't have `new` and `this` keywords. So, you'll never have to fix scopes.
 * You can do currying, partial programming with both `new-struct` and structs.
 
-How does a struct look?
+### How does a struct look like?
 
 ```js
-var Struct = require('new-struct')
+var struct = require('new-struct')
 
-var Animal = Struct({
+var Animal = struct({
   sleep: sleep,
   speak: speak
 })
 
 module.exports = Animal;
 
-function sleep (animal) { console.log('zzzz'); }
+function sleep (animal) {
+  console.log('zzzz');
+}
 
 function speak (animal, text) { 
   console.log('%s says %s', animal.name, text);
 }
+```
+
+And this is how you would call it:
+
+```js
+dongdong = Animal({ name: 'dongdong' })
+
+dongdong.name
+// => 'dong dong'
+
+dongdong.run()
+// dongdong is running
+
+blackbear.sleep()
+// blackbear is sleeping
 ```
 
 Check out [Usage](#usage) and examples for more info about it.
