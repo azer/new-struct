@@ -4,6 +4,7 @@ A minimalistic class system designed for flexibility, functional programming. In
 
 ### Motivation
 
+* It's quite simple and small.
 * All it does is composing functions and objects.
 * It doesn't have `new` and `this` keywords. So, you'll never have to fix scopes.
 * You can do currying, partial programming with both `new-struct` and structs.
