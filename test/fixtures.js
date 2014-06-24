@@ -79,3 +79,9 @@ function meow (cat) {
   cat.speak('meoooowww');
   cat.power -= 1;
 }
+
+var Plain = exports.Plain = Struct({
+  New: function (options) {
+    return exports.Plain(options);
+  }
+});
